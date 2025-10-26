@@ -23,3 +23,10 @@ test('health endpoint returns ok', async () => {
   expect(res.status).toBe(200);
   expect(res.body.status).toBe('ok');
 });
+
+test('swagger docs serve html', async () => {
+  // swagger-ui-express redirects /docs -> /docs/
+  const res = await request(app).get('/docs/');
+  expect(res.status).toBe(200);
+  expect(res.headers['content-type']).toMatch(/text\/html/);
+});
