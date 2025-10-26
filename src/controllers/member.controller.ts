@@ -6,7 +6,7 @@ import { ApiError, asyncHandler } from "../utils/http.js";
 export const listMembers = asyncHandler(
   async (_req: Request, res: Response) => {
     const members = await Member.find().sort({ createdAt: -1 });
-    res.json(members);
+    res.json(members); // ← Return raw array
   }
 );
 
@@ -14,7 +14,7 @@ export const listMembers = asyncHandler(
 export const getMember = asyncHandler(async (req: Request, res: Response) => {
   const item = await Member.findById(req.params.id);
   if (!item) throw new ApiError(404, "Member not found");
-  res.json(item);
+  res.json(item); // ← Return raw object
 });
 
 // Create a new member
@@ -24,7 +24,7 @@ export const createMember = asyncHandler(
     if (exists) throw new ApiError(409, "Email already exists");
 
     const item = await Member.create(req.body);
-    res.status(201).json(item);
+    res.status(201).json(item); // ← Return raw object
   }
 );
 
@@ -43,7 +43,8 @@ export const updateMember = asyncHandler(
       new: true,
     });
     if (!item) throw new ApiError(404, "Member not found");
-    res.json(item);
+
+    res.json(item); // ← Return raw object
   }
 );
 
@@ -52,6 +53,7 @@ export const deleteMember = asyncHandler(
   async (req: Request, res: Response) => {
     const item = await Member.findByIdAndDelete(req.params.id);
     if (!item) throw new ApiError(404, "Member not found");
+
     res.json({ message: "Member deleted successfully" });
   }
 );
