@@ -13,8 +13,8 @@ const r = Router();
 
 r.get("/", listMembers);
 r.get("/:id", getMember);
-r.post("/", validateBody(memberCreateSchema), createMember);   // 👈 validate
-r.put("/:id", validateBody(memberUpdateSchema), updateMember); // 👈 validate
+r.post("/", validateBody(memberCreateSchema), createMember);   
+r.put("/:id", validateBody(memberUpdateSchema), updateMember);
 r.delete("/:id", deleteMember);
 
 export default r;
