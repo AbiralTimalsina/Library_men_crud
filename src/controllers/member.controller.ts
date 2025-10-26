@@ -20,6 +20,9 @@ export const getMember = asyncHandler(async (req: Request, res: Response) => {
 // Create a new member
 export const createMember = asyncHandler(
   async (req: Request, res: Response) => {
+    const exists = await Member.findOne({ email: req.body.email });
+    if (exists) throw new ApiError(409, "Email already exists");
+
     const item = await Member.create(req.body);
     res.status(201).json(item);
   }
@@ -28,6 +31,14 @@ export const createMember = asyncHandler(
 // Update a member by ID
 export const updateMember = asyncHandler(
   async (req: Request, res: Response) => {
+    if (req.body.email) {
+      const other = await Member.findOne({
+        email: req.body.email,
+        _id: { $ne: req.params.id },
+      });
+      if (other) throw new ApiError(409, "Email already exists");
+    }
+
     const item = await Member.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
