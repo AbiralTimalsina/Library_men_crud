@@ -18,13 +18,13 @@ afterAll(async () => {
   await disconnect();
 });
 
-test('Create and update member - INTENTIONAL ERROR', async () => {
+test('Create and update member - FIXED', async () => {
   const createRes = await request(app).post('/api/members').send({ fullName: 'Alice Doe', email: 'alice@example.com' });
-  // INTENTIONAL ERROR: Expecting 200 instead of 201
-  expect(createRes.status).toBe(200); // This should fail!
+  // FIXED: Correctly expecting 201 Created
+  expect(createRes.status).toBe(201);
   const id = createRes.body._id;
   const updateRes = await request(app).put(`/api/members/${id}`).send({ phone: '+977-9800000000' });
   expect(updateRes.status).toBe(200);
-  // INTENTIONAL ERROR: Wrong phone number expectation
-  expect(updateRes.body.phone).toMatch('1234'); // This should fail!
+  // FIXED: Correct phone number expectation
+  expect(updateRes.body.phone).toMatch('9800');
 });
