@@ -15,4 +15,6 @@ export const bookCreateSchema = z.object({
            .default(1),
 });
 
+export const bookUpdateSchema = bookCreateSchema.partial();
 export type BookCreateDto = z.infer<typeof bookCreateSchema>;
+export type BookUpdateDto = z.infer<typeof bookUpdateSchema>;
