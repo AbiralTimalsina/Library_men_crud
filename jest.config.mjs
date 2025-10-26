@@ -9,7 +9,7 @@ export default {
   moduleNameMapper: {
     '^(\.{1,2}/.*)\.js$': '$1'
   },
-  roots: ['<rootDir>/tests'],
+  roots: ['<rootDir>/src/tests'],
   setupFiles: ['dotenv/config'],
   verbose: true
 };
