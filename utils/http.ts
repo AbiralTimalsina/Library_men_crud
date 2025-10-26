@@ -7,3 +7,6 @@ export class ApiError extends Error {
     this.status = status;
   }
 }
+
+export const asyncHandler = <T extends (req: Request, res: Response, next: NextFunction) => Promise<any>>(fn: T) =>
+  (req: Request, res: Response, next: NextFunction) => fn(req, res, next).catch(next);
