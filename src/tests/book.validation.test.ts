@@ -20,8 +20,8 @@ afterAll(async () => {
 
 test('rejects invalid payload (missing title, bad isbn)', async () => {
   const res = await request(app).post('/api/books').send({ author: 'Someone', isbn: '123' });
-  // INTENTIONAL ERROR: Expecting 200 instead of 400
-  expect(res.status).toBe(200); // This should fail!
+  // FIXED: Correctly expecting 400 Bad Request
+  expect(res.status).toBe(400);
   expect(res.body.error).toBeTruthy();
 });
 
