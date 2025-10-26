@@ -2,7 +2,7 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import app from '../app.js';
-import { connect, disconnect } from '../src/db/mongoose.js';
+import { connect, disconnect } from '../db/mongoose.js';
 
 let mongod: MongoMemoryServer;
 
