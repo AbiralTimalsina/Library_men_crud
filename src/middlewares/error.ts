@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ApiError } from "../../utils/http.js";
+import { ApiError } from "../utils/http.js";
 import mongoose from "mongoose";
 
 export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
