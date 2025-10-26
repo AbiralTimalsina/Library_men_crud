@@ -29,10 +29,10 @@ test('Create and list books', async () => {
   expect(listRes.body.length).toBeGreaterThanOrEqual(1);
 });
 
-test('Reject duplicate ISBN - INTENTIONAL ERROR', async () => {
+test('Reject duplicate ISBN - FIXED', async () => {
   const payload = { title: 'Book A', author: 'X', isbn: '9780131101630' };
   await request(app).post('/api/books').send(payload).expect(201);
   const dup = await request(app).post('/api/books').send({ ...payload, title: 'Book B' });
-  // INTENTIONAL ERROR: Expecting 200 instead of 409
-  expect(dup.status).toBe(200); // This should fail!
+  // FIXED: Now correctly expecting 409 Conflict
+  expect(dup.status).toBe(409);
 });
