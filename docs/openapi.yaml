@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: Library CRUD API
+  version: 1.0.0
+  description: MEN + TypeScript CRUD for Library Management (Books, Members)
+servers:
+  - url: http://localhost:4000
+    description: Local Dev
+tags: [ { name: Books }, { name: Members } ]
+paths:
+  /api/books:
+    get:
+      tags: [Books]
+      summary: List books
+      parameters: [ { in: query, name: q, schema: { type: string }, description: Search by title/author/isbn } ]
+      responses: { '200': { description: OK } }
+    post:
+      tags: [Books]
+      summary: Create a new book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: { type: string }
+                author: { type: string }
+                isbn: { type: string }
+                category: { type: string }
+                copies: { type: integer, minimum: 0 }
+              required: [title, author, isbn]
+      responses: { '201': { description: Created }, '409': { description: Duplicate ISBN } }
+  /api/books/{id}:
+    get:
+      tags: [Books]
+      summary: Get a book by id
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+    put:
+      tags: [Books]
+      summary: Update a book
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: { type: string }
+                author: { type: string }
+                isbn: { type: string }
+                category: { type: string }
+                copies: { type: integer, minimum: 0 }
+      responses: { '200': { description: Updated }, '404': { description: Not found }, '409': { description: Duplicate ISBN } }
+    delete:
+      tags: [Books]
+      summary: Delete a book
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      responses: { '204': { description: No Content }, '404': { description: Not found } }
+  /api/members:
+    get:
+      tags: [Members]
+      summary: List members
+      responses: { '200': { description: OK } }
+    post:
+      tags: [Members]
+      summary: Create a new member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName: { type: string }
+                email: { type: string, format: email }
+                phone: { type: string }
+              required: [fullName, email]
+      responses: { '201': { description: Created }, '409': { description: Duplicate email } }
+  /api/members/{id}:
+    get:
+      tags: [Members]
+      summary: Get a member by id
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+    put:
+      tags: [Members]
+      summary: Update a member
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName: { type: string }
+                email: { type: string, format: email }
+                phone: { type: string }
+      responses: { '200': { description: Updated }, '404': { description: Not found }, '409': { description: Duplicate email } }
+    delete:
+      tags: [Members]
+      summary: Delete a member
+      parameters: [ { in: path, name: id, required: true, schema: { type: string } } ]
+      responses: { '204': { description: No Content }, '404': { description: Not found } }
